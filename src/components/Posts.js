@@ -11,11 +11,15 @@ const Posts = (props) =>{
     const [postId, setPostsId] = useState(null)
     const [searchInput, setSearchInput] = useState('')
     const [searchOutput, setSearchOutput] = useState ([])
+<<<<<<< HEAD
     const [addPostClicked, setAddPostClicked] = useState(false)
 
     const createPost = async () => {
         setAddPostClicked(true)
     }
+=======
+    const [showResults, setShowResults] = useState(false)
+>>>>>>> a55111092384721853f073b4e16fb2ff6f8531df
 
     const handleDelete = async (postIdToDelete) => {
         console.log('postIdToDelete: ', postIdToDelete)
@@ -44,10 +48,17 @@ const Posts = (props) =>{
             if(val.title.toLowerCase().includes(searchInput.toLowerCase())){
                 
                 setSearchOutput(searchOutput => [val])
+                // setSearchOutput(searchOutput => [...searchOutput, val])
             }
         }
             )
     }, [searchInput])
+
+
+    // const handleClick = ( ) => {
+
+    //     <Edits publicPosts={publicPosts} setPublicPosts={setPublicPosts} postId = {postId} setPostsId = {setPostsId} />
+    // }
 
     return (
         <> 
@@ -91,6 +102,7 @@ const Posts = (props) =>{
                 :
 
                 <>
+                {showResults ? <Edits publicPosts={publicPosts} setPublicPosts={setPublicPosts} postId = {postId} setPostsId = {setPostsId} /> : null}
             <div className = 'userposts'> {publicPosts.map((post, index) => (
                 
                 <div key={index} className='post' > 
@@ -103,11 +115,13 @@ const Posts = (props) =>{
                     {/* <Link to = {`/editpost/${post._id}`} >Edit</Link> */}
 
 
-                    <button type='button' className = 'edit' onClick = {() => setPostsId(post._id)}>Edit</button>
+                    <button type='button' className = 'edit' onClick = {() => {setPostsId(post._id); setShowResults(true) }}> 
+                        Edit 
+                    </button>
                     
                     <button type='button' className = 'delete' onClick = {() => handleDelete(post._id)}>Delete</button>
-                
-                    <Edits publicPosts={publicPosts} setPublicPosts={setPublicPosts} postId = {postId} setPostsId = {setPostsId} />
+                    
+                    
                 
                  </div>))}           
           

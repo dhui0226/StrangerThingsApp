@@ -14,6 +14,7 @@ const Edits = (props) => {
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [location, setLocation] = useState('')
+    const [showResults, setShowResults] = useState(true)
 
     // const urlEdit = useParams()
     //console.log('public posts:', publicPosts)
@@ -72,6 +73,8 @@ const Edits = (props) => {
 
     return (
         <>
+           { showResults ?
+           <>
             <h3>Editing</h3>    
             <form onSubmit={handleSubmit}>
                 <h1>Edit Post</h1>
@@ -91,8 +94,17 @@ const Edits = (props) => {
                 <input type='text' className='location1' 
                 //value={location}
                 onChange={(event) => {setLocation(event.target.value)}}></input>
-                <button className ='submit'>Submit</button>
-            </form>     
+                <button className ='submit'>
+                    Submit
+                </button>
+            </form>
+
+            <button className = 'close' onClick = {() => setShowResults(false)} >Close </button>    
+            </>
+        :
+
+        null
+            }
         </>
     )
 }
