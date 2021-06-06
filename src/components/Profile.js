@@ -13,10 +13,10 @@ const Profile = (props) => {
     //test().then(setUserMessages())
 
     useEffect(() => {
-        test().then(result => setUserMessages(result.data.posts)) //result.data.posts))
+        test().then(result => setUserMessages(result.data.posts))
     }, [])
 
-    console.log('yabba', userMessages)
+    //console.log('yabba', userMessages)
 
     return (
         <>

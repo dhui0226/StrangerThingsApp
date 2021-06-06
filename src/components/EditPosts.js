@@ -30,9 +30,7 @@ const Edit = (props) => {
 
     const handleSubmit = async(event) => {
         event.preventDefault();
-        console.log('title, description, price, location: ', title, description, price, location);
-     
-
+        //console.log('title, description, price, location: ', title, description, price, location);
 
         const response = await fetch(`https://strangers-things.herokuapp.com/api/2104-UIC-RM-WEB-FT/posts/${urlEdit.id}`,
         {

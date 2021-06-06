@@ -8,13 +8,13 @@ find a way to fill in forms with existing data */
 
 //adding comment for test push
 const Edits = (props) => {
-    const {publicPosts, setPublicPosts, postId, setPostsId} = props;
+    const {publicPosts, setPublicPosts, postId, setPostsId, isEditClicked, setIsEditClicked} = props;
     
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [location, setLocation] = useState('')
-    const [showResults, setShowResults] = useState(true)
+    const [showResults, setShowResults] = useState(false)
 
     // const urlEdit = useParams()
     //console.log('public posts:', publicPosts)
@@ -71,40 +71,41 @@ const Edits = (props) => {
         }
     }
 
+    const cancelEdit = async() => {
+        setIsEditClicked(false)
+    }
+
     return (
-        <>
-           { showResults ?
-           <>
-            <h3>Editing</h3>    
-            <form onSubmit={handleSubmit}>
-                <h1>Edit Post</h1>
-                <label>Title</label>
-                <input type ='text' className='title1' 
-                //value={title}
-                onChange={(event) => {setTitle(event.target.value)}}></input>
-                <label>Description</label>
-                <input type='text' className='description1' 
-                //value={description}
-                onChange={(event) => {setDescription(event.target.value)}}></input>
-                <label>Price</label>
-                <input type='text' className='price1' 
-                //value={price}
-                onChange={(event) => {setPrice(event.target.value)}}></input>
-                <label>Location</label>
-                <input type='text' className='location1' 
-                //value={location}
-                onChange={(event) => {setLocation(event.target.value)}}></input>
-                <button className ='submit'>
-                    Submit
-                </button>
-            </form>
+        <>      
+            {isEditClicked ? 
+            <>
+                <h3>Editing</h3>    
+                <form className='active' onSubmit={handleSubmit}>
+                    <h1>Edit Post</h1>
+                    <label>Title</label>
+                    <input type ='text' className='title1' 
+                    //value={title}
+                    onChange={(event) => {setTitle(event.target.value)}}></input>
+                    <label>Description</label>
+                    <input type='text' className='description1' 
+                    //value={description}
+                    onChange={(event) => {setDescription(event.target.value)}}></input>
+                    <label>Price</label>
+                    <input type='text' className='price1' 
+                    //value={price}
+                    onChange={(event) => {setPrice(event.target.value)}}></input>
+                    <label>Location</label>
+                    <input type='text' className='location1' 
+                    //value={location}
+                    onChange={(event) => {setLocation(event.target.value)}}></input>
+                    <button className ='submit'>
+                        Submit
+                    </button>
+                </form>
 
-            <button className = 'close' onClick = {() => setShowResults(false)} >Close </button>    
+            <button className='close' onClick={() => cancelEdit()}>Close </button>    
             </>
-        :
-
-        null
-            }
+            : null}
         </>
     )
 }

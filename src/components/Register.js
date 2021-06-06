@@ -32,7 +32,6 @@ import {register, login} from '../api'
 // function checkInfo(username, password, confirmPass) {
 //     if (checkUsername(username) && checkPassword(password, confirmPass)) {
 //         //console.log('account made') 
-//         //LEFT OFF RIGHT HERE
 //     }
 // }
 
