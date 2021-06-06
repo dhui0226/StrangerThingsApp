@@ -12,19 +12,8 @@ export const clearToken = () => {
     localStorage.removeItem('given-token');
 }
 
-//Headers?????????
-function makeHeaders(){
-    let aHeader = {
-        'Content-Type': 'application/json',
-    };
-    
-    if (grabToken()){
-        aHEader['Authorization'] = `Bearer ${grabToken()}`;
-    }
-    return aHeader
-}
 
-//condense both login and register functions into one later?
+
 export const register = async(username, password, checkUser = false) => {
     const response = await fetch(`${BASE_URL}/users/register`, 
         {
@@ -47,8 +36,9 @@ export const register = async(username, password, checkUser = false) => {
            throw Error(error.message)
         } else if (data && data.token){
                givenToken(data.token);
+               alert('Registration Success! Press Log-in to Log In')
         }
-    
+        
         return data
 }
 
@@ -56,7 +46,7 @@ export const login = async(username, password, checkUser = false) => {
 
     const response = await fetch(`${BASE_URL}/users/login`, 
         {
-        //following API doc, 
+
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -84,46 +74,6 @@ export const login = async(username, password, checkUser = false) => {
 export const publicPosts = async () => {
     const response = await fetch(`${BASE_URL}/posts`)   
     const data = await response.json();   
-    //console.log(data)
-    
-    /* fetch('https://strangers-things.herokuapp.com/api/2104-UIC-RM-WEB-FT/posts')
-    .then(response => response.json())
-    .then(result => {
-      console.log(result);
-    })
-    .catch(console.error)        return result */ 
+
 }
 
-/* export const test = async () => {
-    const response = await fetch(`${BASE_URL}/users/me`,
-    { headers: {
-        'Content-type': 'application/json',
-        'Authorization': `Bearer ${grabToken()}` 
-    } })
-
-    const data = await response.json();
-    //return data
-    console.log(data)
-} */
-
-/*export const hitAPI = async(method, endPoint, keyBody) => {
-    const result = {
-        method: method,
-        headers: makeHeaders()
-    }
-
-    if (keyBody){
-        result.body = JSON.stringify(keyBody);
-    }
-
-    const response = await fetch(`${BASE_URL}${endpoint}`, result)
-    const {error, data} = await response.json();
-
-       if (error){
-           throw Error(error.message)
-       }else if (data && data.token){
-               givenToken(data.token);
-           }
-       
-        return data
-}*/

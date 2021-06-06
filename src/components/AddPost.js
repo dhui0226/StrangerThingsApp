@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import { HashRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import {grabToken} from '../api'
 
 const AddPost = ({publicPosts, setPublicPosts, addPostClicked, setAddPostClicked}) => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
-    const [username, setUsername] = useState('')
     const [location, setLocation] = useState('')
     const [willDeliver, setWillDeliver] = useState(false)
 
@@ -23,7 +21,6 @@ const AddPost = ({publicPosts, setPublicPosts, addPostClicked, setAddPostClicked
                     title,
                     description,
                     price,
-                    username,
                     location,
                     willDeliver
                 }
@@ -31,7 +28,11 @@ const AddPost = ({publicPosts, setPublicPosts, addPostClicked, setAddPostClicked
         }) 
 
         const data = await response.json();
-        setPublicPosts([data, ...publicPosts])
+
+        setPublicPosts([data.data.post, ...publicPosts])
+
+
+
     } 
 
     const cancelCreate = async() => {
@@ -41,36 +42,40 @@ const AddPost = ({publicPosts, setPublicPosts, addPostClicked, setAddPostClicked
     return (
 
         <>
-            <form onSubmit={handleSubmit}>
-                <h1>Add New Post</h1>
-                <label>Title</label>
-                <input type ='text' id='title' 
-                //value={title}
+        <div className = 'addform'>
+            <form className = 'postadd' onSubmit={handleSubmit}>
+                <h1 className = 'f1'>Add New Post</h1>
+                <label className = 'f2'>Title</label>
+                <input className = 'f2field' type ='text' id='title' 
+                
                 onChange={(event) => {setTitle(event.target.value)}}></input>
 
-                <label>Description</label>
-                <input type='text' id='description' 
-                //value={description}
+                <label className = 'f2'>Description</label>
+                <input className = 'f2field' type='text' id='description' 
+                
                 onChange={(event) => {setDescription(event.target.value)}}></input>
 
-                <label>Price</label>
-                <input type='text' id='price' 
-                //value={price}
+                <label className = 'f2'>Price</label>
+                <input className = 'f2field' type='text' id='price' 
+                
                 onChange={(event) => {setPrice(event.target.value)}}></input>
 
-                <label>Location</label>
-                <input type='text' id='location' 
-                //value={location}
+                <label className = 'f2'>Location</label>
+                <input className = 'f2field' type='text' id='location' 
+                
                 onChange={(event) => {setLocation(event.target.value)}}></input>
 
-                <label>Willing to Deliver?</label>
-                <input type='checkbox'
+                <div className = 'box'>
+                <label className = 'f2'>Willing to Deliver?</label>
+                <input className = 'f2field' className = 'check' type='checkbox'
                 onChange={() => {setWillDeliver(true)}}></input>
+                </div>
 
                 <button className ='create'>Create</button>
             </form>
             <button className ='cancelCreate'
-            onClick={cancelCreate}>Cancel</button>
+            onClick={cancelCreate}>Close</button>
+        </div>
         </>
 
     )

@@ -89,7 +89,7 @@ body{
     display: flex;
     justify-content: flex-end;
     color: white;
-
+    margin-top: 90px;
 
 }
 
@@ -191,7 +191,7 @@ body{
 
 .userposts{
     height: fit-content;
-    width: 60%;
+    width: 80%;
 }
 
 

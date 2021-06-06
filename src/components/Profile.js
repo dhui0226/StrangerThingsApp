@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { HashRouter as Router, Route, Link, Switch } from 'react-router-dom'
+
 
 
 const Profile = (props) => {
-    const {test} = props;
+    const {currentUser} = props;
     const [userMessages, setUserMessages] = useState([])
-    //const userIdStuff = test();
-
-    //console.log('test', userIdStuff)
-
-    //test().then(setUserMessages())
 
     useEffect(() => {
-        test().then(result => setUserMessages(result.data.posts))
+        currentUser().then(result => setUserMessages(result.data.posts))
     }, [])
 
     //console.log('yabba', userMessages)
 
     return (
         <>
-            <h1>Welcome</h1>
-            <h2>My Messages:</h2>
-            <div> 
+            <h1 className = 'myposts'>My Posts</h1>
+            <div className = 'userposts'> 
                 {userMessages.map((message, idx) => {
-                    return <div key={idx}>
-                        <h1>{message.title}</h1>
+                    return <div className='post' key={idx}>
+                        <h1 className = 'q1t'>{message.title}</h1>
+                        <p className = 'q1'>{message.description}</p>
+                        <h3 className = 'q1'>Price: {message.price}</h3>
+                        <h3 className = 'q1'>Location: {message.location}</h3>       
                     </div>
                 })}
             </div>

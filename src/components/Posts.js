@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { HashRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import AddPost from './AddPost'
 import Edits from './Edit'
 import {grabToken} from '../api'
@@ -12,14 +11,17 @@ const Posts = (props) =>{
     const [searchInput, setSearchInput] = useState('')
     const [searchOutput, setSearchOutput] = useState ([])
     const [addPostClicked, setAddPostClicked] = useState(false)
-    const [isEditClicked, setIsEditClicked] = useState(false)
-    //const [showResults, setShowResults] = useState(false)
+    const [showResults, setShowResults] = useState(false)
+
+    console.log('public posts:', publicPosts)
 
     const createPost = async () => {
         setAddPostClicked(true)
     }
 
-    //const [showResults, setShowResults] = useState(false) 
+    const makeEdit = async () => {
+        setShowResults(true)
+    }
 
     const handleDelete = async (postIdToDelete) => {
         console.log('postIdToDelete: ', postIdToDelete)
@@ -46,30 +48,25 @@ const Posts = (props) =>{
         publicPosts.filter(val =>{
             if(val.title.toLowerCase().includes(searchInput.toLowerCase())){
                 
-                //setSearchOutput(searchOutput => [val])
-                setSearchOutput([val])
+                setSearchOutput(searchOutput => [...searchOutput, val])
             }
         }
             )
     }, [searchInput])
 
 
-    // const handleClick = ( ) => {
-
-    //     <Edits publicPosts={publicPosts} setPublicPosts={setPublicPosts} postId = {postId} setPostsId = {setPostsId} />
-    // }
-
     return (
         <> 
-            <h1>Search Posts</h1>
+        <div className = 'thesearcher'>
+            <h2 className= 'searchposts'>Search Posts</h2>
             <div className ='search-bar'>
-                <input onChange = { event => setSearchInput(event.target.value) } type ='text' placeholder ='Search' />
+                <input className = 'searchfield' onChange = { event => setSearchInput(event.target.value) } type ='text' placeholder ='Search Title' />
             </div>
-
+        
             <button className='addPost'
             onClick={createPost}>Add Post
             </button>
-
+        </div>
             { addPostClicked ? 
             <AddPost publicPosts={publicPosts} setPublicPosts={setPublicPosts} addPostClicked={addPostClicked} setAddPostClicked={setAddPostClicked}/> 
             : null }
@@ -77,17 +74,22 @@ const Posts = (props) =>{
             {
             searchInput ?
             <>
-            <div className ='output'> {searchOutput.map((post,index) => (
-                    <div key = {index} className = 'outsearch'>
-                    <h1>{post.title}</h1> 
-                    <p>{post.description}</p>
-                    <h3>Price: {post.price}</h3>
-                    {/* <h2>Seller: {post.author.username}</h2> */}
-                    <h3>Location: {post.location}</h3>            
-                    {/* <Link to = {`/editpost/${post._id}`} >Edit</Link> */}
+                {showResults ? <Edits publicPosts={publicPosts} setPublicPosts={setPublicPosts} postId = {postId} setPostsId = {setPostsId} 
+                 showResults = {showResults} setShowResults = {setShowResults}/> : null}
+            <div className ='userposts'> {searchOutput.map((post,index) => (
+                    <div key = {index} className = 'post'>
+                        <h1 className = 'q1t'>{post.title}</h1> 
+                    <p className = 'q1'>{post.description}</p>
+                    <h3 className = 'q1'>Price: {post.price}</h3>
+                    <h3 className = 'q1' id = 'seller'>Seller: {post.author.username}</h3>
+                    <h3 className = 'q1'>Location: {post.location}</h3>            
 
-                    <button type='button' className = 'edit' onClick = {() => setPostsId(post._id), setIsEditClicked(true)}>Edit</button>   
+                    <button type='button' className = 'edit' onClick = {() => {setPostsId(post._id); makeEdit()}}>Edit</button>
+                    
                     <button type='button' className = 'delete' onClick = {() => handleDelete(post._id)}>Delete</button>
+                
+                    <Edits publicPosts={publicPosts} setPublicPosts={setPublicPosts} postId = {postId} setPostsId = {setPostsId} 
+                   />
 
                     </div>))}
 
@@ -96,34 +98,35 @@ const Posts = (props) =>{
                 
                 :
 
-                <>  
-                <div className = 'userposts'> {publicPosts.map((post, index) => (               
-                    <div key={index} className='post' > 
-                        <h1>{post.title}</h1> 
-                        <p>{post.description}</p>
-                        <h3>Price: {post.price}</h3>
-                        {/*  seller: causes error but still actually posts after refresh????? */}
-                        <h2>Seller: {post.author.username}</h2> 
-                        <h3>Location: {post.location}</h3>            
+                <>
+                {showResults ? <Edits publicPosts={publicPosts} setPublicPosts={setPublicPosts} postId = {postId} setPostsId = {setPostsId} 
+                 showResults = {showResults} setShowResults = {setShowResults}/> : null}
+            <div className = 'userposts'> {publicPosts.map((post, index) => (
 
-                        <button type='button' className = 'edit' onClick = {() => {setPostsId(post._id), setIsEditClicked(true), console.log('id', postId) }}>   {/*set inactive to active*/}
-                            Edit button
-                        </button>
+                <div key={index} className='post' >  
+                    <h1 className = 'q1t'>{post.title}</h1> 
+                    <p className = 'q1'>{post.description}</p>
+                    <h3 className = 'q1'>Price: {post.price}</h3>
 
-                        <button type='button' className = 'delete' onClick = {() => handleDelete(post._id)}>Delete</button>      
+                    <h3 className = 'q1' id = 'seller'>Seller: {post.author.username}</h3> 
+                    <h3 className = 'q1'>Location: {post.location}</h3>            
 
-                        {
-                        isEditClicked ? 
-                        <Edits publicPosts={publicPosts} setPublicPosts={setPublicPosts} postId={postId} setPostsId={setPostsId} isEditClicked={isEditClicked} setIsEditClicked={setIsEditClicked}/> 
-                        : null
-                        } 
-
-                    </div>))}           
-                </div>
-
-                </>
+                    <button type='button' className = 'edit' onClick = {() => {setPostsId(post._id); makeEdit() }}> 
+                        Edit 
+                    </button>
+                    
+                    <button type='button' className = 'delete' onClick = {() => handleDelete(post._id)}>Delete</button>
+                    
+                    
+                
+                 </div>))}           
+          
+            </div>
+            </>
             }
+
         </>
+    
     )
 }
 
